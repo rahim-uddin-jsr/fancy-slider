@@ -126,6 +126,21 @@ const changeSlide = (index) => {
 };
 
 const search = document.getElementById("search");
+search.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    if (search.value && isNaN(+search.value)) {
+      document.querySelector(".main").style.display = "none";
+      clearInterval(timer);
+      getImages(search.value);
+      sliders.length = 0;
+      search.value = "";
+    } else {
+      alert("Please Search some Valid text");
+      durationFiled.value = "";
+    }
+  }
+});
+
 searchBtn.addEventListener("click", function () {
   if (search.value && isNaN(+search.value)) {
     document.querySelector(".main").style.display = "none";
