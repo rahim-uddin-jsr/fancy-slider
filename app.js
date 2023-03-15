@@ -4,6 +4,8 @@ const galleryHeader = document.querySelector(".gallery-header");
 const searchBtn = document.getElementById("search-btn");
 const sliderBtn = document.getElementById("create-slider");
 const sliderContainer = document.getElementById("sliders");
+const durationFiled = document.getElementById("duration");
+
 // selected image
 let sliders = [];
 
@@ -55,6 +57,13 @@ const selectItem = (event, img) => {
 };
 var timer;
 const createSlider = () => {
+  const duration = durationFiled.value || 1000;
+
+  if (+duration < 0 || isNaN(+duration)) {
+    alert("Please Enter Slide Duration in Positive Numbers");
+    durationFiled.value = "";
+    return;
+  }
   // check slider image length
   if (sliders.length < 2) {
     alert("Select at least 2 image.");
@@ -74,7 +83,7 @@ const createSlider = () => {
   document.querySelector(".main").style.display = "block";
   // hide image aria
   imagesArea.style.display = "none";
-  const duration = document.getElementById("duration").value || 1000;
+
   sliders.forEach((slide) => {
     let item = document.createElement("div");
     item.className = "slider-item";
@@ -83,6 +92,7 @@ const createSlider = () => {
     alt="">`;
     sliderContainer.appendChild(item);
   });
+
   changeSlide(0);
   timer = setInterval(function () {
     slideIndex++;
@@ -125,6 +135,7 @@ searchBtn.addEventListener("click", function () {
     search.value = "";
   } else {
     alert("Please Search some Valid text");
+    durationFiled.value = "";
   }
 });
 
