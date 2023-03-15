@@ -14,17 +14,22 @@ const KEY = "15674931-a9d714b6e9d654524df198e00&q";
 
 // show images
 const showImages = (images) => {
-  imagesArea.style.display = "block";
-  gallery.innerHTML = "";
-  // show gallery title
-  galleryHeader.style.display = "flex";
-  images.forEach((image) => {
-    let div = document.createElement("div");
-    div.className = "col-lg-3 col-md-4 col-xs-6 img-item mb-2";
-    div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
-    gallery.appendChild(div);
-    search.value = "";
-  });
+  console.log(images.length);
+  if (images.length > 0) {
+    imagesArea.style.display = "block";
+    gallery.innerHTML = "";
+    // show gallery title
+    galleryHeader.style.display = "flex";
+    images.forEach((image) => {
+      let div = document.createElement("div");
+      div.className = "col-lg-3 col-md-4 col-xs-6 img-item mb-2";
+      div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+      gallery.appendChild(div);
+      search.value = "";
+    });
+  } else {
+    alert("nothing found");
+  }
 };
 
 const getImages = (query) => {
@@ -112,10 +117,15 @@ const changeSlide = (index) => {
 
 const search = document.getElementById("search");
 searchBtn.addEventListener("click", function () {
-  document.querySelector(".main").style.display = "none";
-  clearInterval(timer);
-  getImages(search.value);
-  sliders.length = 0;
+  if (search.value && isNaN(+search.value)) {
+    document.querySelector(".main").style.display = "none";
+    clearInterval(timer);
+    getImages(search.value);
+    sliders.length = 0;
+    search.value = "";
+  } else {
+    alert("Please Search some Valid text");
+  }
 });
 
 sliderBtn.addEventListener("click", function () {
